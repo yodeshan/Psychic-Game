@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>The Psychic Game</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="psychic.css">
+  
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div id="writing">
+        <h2>The Psychic Game</h2>
+
+        <img src="psych.jpg" alt="psychic" width="200px" height="200px">
+
+        <p>Guess what letter I'm thinking of</p>
+
+        <p>Wins: <span id="wins">0</span></p>
+
+        <p>Losses: <span id="losses">0</span></p>
+
+        <p>Guesses Left: <span id="guesses-left"></span></p>
+
+        <p>Your Guesses so far: <span id="guesses-so-far"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+    var letters = ["r", "i", "p", "e"];
+    
+    var guessedLetters = [];
+    
+    var letterToGuess = null;
+    
+    var guessesLeft = 7;
+    
+    var wins = 0;
+    var losses = 0;
+
+    var updateGuessesLeft = function() {
+
+      document.querySelector("#guesses-left").innerHTML = guessesLeft;
+    };
+    var updateLetterToGuess = function() {
+      letterToGuess = letters[Math.floor(Math.random() * letters.length)];
+    };
+    var updateGuessesSoFar = function() {
+
+      document.querySelector("#guesses-so-far").innerHTML = guessedLetters.join(", ");
+    };
+    
+    var reset = function() {
+      guessesLeft = 7;
+      guessedLetters = [];
+      updateLetterToGuess();
+      updateGuessesLeft();
+      updateGuessesSoFar();
+    };
+  
+    updateLetterToGuess();
+    updateGuessesLeft();
+ 
+    document.onkeyup = function(event) {
+      guessesLeft--;
+      var letter = String.fromCharCode(event.keyCode).toLowerCase();
+      guessedLetters.push(letter);
+      updateGuessesLeft();
+      updateGuessesSoFar();
+      if (letter === letterToGuess) {
+        wins++;
+        document.querySelector("#wins").innerHTML = wins;
+        reset();
+      }
+      if (guessesLeft === 0) {
+        losses++;
+        document.querySelector("#losses").innerHTML = losses;
+        reset();
+      }
+    };
+  </script>
+
+</body>
+
+</html>
